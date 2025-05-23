@@ -1,5 +1,6 @@
 package com.kamsspace.financialproduct.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,9 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
+
 
     public Transaction() {
     }

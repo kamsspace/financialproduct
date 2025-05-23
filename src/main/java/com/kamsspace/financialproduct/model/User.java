@@ -1,10 +1,12 @@
 package com.kamsspace.financialproduct.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "\"user\"")
 public class User {
 
     @Id
@@ -16,7 +18,9 @@ public class User {
     private double balance;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Transaction> transactions;
+
 
     public User() {
     }
