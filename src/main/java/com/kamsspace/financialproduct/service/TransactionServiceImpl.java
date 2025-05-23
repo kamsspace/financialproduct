@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return List.of();
+    public List<Transaction> getTransactionsByDateRange(Long userId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.findByUserUserIdAndTimeBetween(userId, startDate, endDate);
     }
 }

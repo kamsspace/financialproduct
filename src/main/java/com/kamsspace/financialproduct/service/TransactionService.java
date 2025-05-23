@@ -10,6 +10,6 @@ public interface TransactionService {
     List<Transaction> getAllTransactions();
     void createTransaction(Transaction transaction, Long userId);
     List<Transaction> getTransactionsByUser_UserId(Long userId);
-    List<Transaction> getTransactionsByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+    List<Transaction> getTransactionsByDateRange(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 
 }
