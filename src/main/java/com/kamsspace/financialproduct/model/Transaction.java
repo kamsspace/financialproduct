@@ -3,7 +3,6 @@ package com.kamsspace.financialproduct.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Transaction {
@@ -17,6 +16,7 @@ public class Transaction {
     private LocalDateTime time;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Transaction() {
