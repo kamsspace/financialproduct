@@ -11,31 +11,31 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public/transactions")
+@RequestMapping("/api")
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/public/transactions")
+    @GetMapping("/transactions")
     public ResponseEntity<List<Transaction>> getAllTransactions() {
         List<Transaction> transactions = transactionService.getAllTransactions();
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @PostMapping("/public/transactions")
-    public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
-        transactionService.createTransaction(transaction);
+    @PostMapping("/users/{userId}/transactions")
+    public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction, @PathVariable Long userId) {
+        transactionService.createTransaction(transaction, userId);
         return new ResponseEntity<>("Transaction added successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/transactions/user/{userId}")
     public ResponseEntity<List<Transaction>> getTransactionsByUser(@PathVariable Long userId) {
-        List<Transaction> transactions = transactionService.getTransactionsByUser(userId);
+        List<Transaction> transactions = transactionService.getTransactionsByUser_UserId(userId);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @GetMapping("date-range")
+    @GetMapping("transactions/by-date-range")
     public ResponseEntity<List<Transaction>> getTransactionsByDateRange(@RequestParam("startDate")LocalDateTime startDate,
                                                                         @RequestParam("endDate") LocalDateTime endDate) {
         List<Transaction> transactions = transactionService.getTransactionsByDateRange(startDate, endDate);
