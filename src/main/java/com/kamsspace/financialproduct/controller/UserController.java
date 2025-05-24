@@ -2,6 +2,7 @@ package com.kamsspace.financialproduct.controller;
 
 import com.kamsspace.financialproduct.model.User;
 import com.kamsspace.financialproduct.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/public/users")
-    public ResponseEntity<String> createUsers(@RequestBody User user) {
+    public ResponseEntity<String> createUsers(@Valid @RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
     }
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/public/users/{userId}")
-    public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable Long userId) {
+    public ResponseEntity<String> updateUser(@Valid @RequestBody User user, @PathVariable Long userId) {
         try {
             User savedUser = userService.updateUser(user, userId);
             return new ResponseEntity<>("User with userId: " + userId, HttpStatus.OK);

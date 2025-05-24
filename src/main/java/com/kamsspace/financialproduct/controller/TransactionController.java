@@ -2,6 +2,7 @@ package com.kamsspace.financialproduct.controller;
 
 import com.kamsspace.financialproduct.model.Transaction;
 import com.kamsspace.financialproduct.service.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class TransactionController {
     }
 
     @PostMapping("user/{userId}/transactions")
-    public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction, @PathVariable Long userId) {
+    public ResponseEntity<String> createTransaction(@Valid @RequestBody Transaction transaction, @PathVariable Long userId) {
         transactionService.createTransaction(transaction, userId);
         return new ResponseEntity<>("Transaction added successfully", HttpStatus.CREATED);
     }
