@@ -1,6 +1,7 @@
 package com.kamsspace.financialproduct.controller;
 
 import com.kamsspace.financialproduct.model.Transaction;
+import com.kamsspace.financialproduct.payload.TransactionDTO;
 import com.kamsspace.financialproduct.payload.TransactionResponse;
 import com.kamsspace.financialproduct.service.TransactionService;
 import jakarta.validation.Valid;
@@ -26,9 +27,9 @@ public class TransactionController {
     }
 
     @PostMapping("user/{userId}/transactions")
-    public ResponseEntity<String> createTransaction(@Valid @RequestBody Transaction transaction, @PathVariable Long userId) {
-        transactionService.createTransaction(transaction, userId);
-        return new ResponseEntity<>("Transaction added successfully", HttpStatus.CREATED);
+    public ResponseEntity<TransactionDTO> createTransaction(@Valid @RequestBody TransactionDTO transactionDTO, @PathVariable Long userId) {
+        TransactionDTO savedtransactionDTO = transactionService.createTransaction(transactionDTO, userId);
+        return new ResponseEntity<>(savedtransactionDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("by/user/{userId}")

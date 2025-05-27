@@ -38,36 +38,44 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(User user) {
-        userRepository.save(user);
+    public UserDTO createUser(UserDTO userDTO) {
+
+        User user = modelMapper.map(userDTO, User.class);
+
+        User savedUser = userRepository.save(user);
+        return modelMapper.map(savedUser, UserDTO.class);
     }
 
     @Override
-    public String deleteUser(Long userId) {
+    public UserDTO deleteUser(Long userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
 
         userRepository.delete(user);
-        return "User with userId " + userId + " deleted successfully";
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
-    public User updateUser(User user, Long userId) {
+    public UserDTO updateUser(UserDTO userDTO, Long userId) {
 
         User savedUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
-        user.setUserId(userId);
-        savedUser = userRepository.save(user);
 
-        return savedUser;
+        User user = modelMapper.map(userDTO, User.class);
+        user.setUserId(userId);
+        savedUser  = userRepository.save(user);
+
+        return modelMapper.map(savedUser, UserDTO.class);
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public UserDTO getUserById(Long userId) {
 
-        return userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
 

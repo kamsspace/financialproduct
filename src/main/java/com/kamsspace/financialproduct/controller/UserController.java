@@ -1,6 +1,7 @@
 package com.kamsspace.financialproduct.controller;
 
 import com.kamsspace.financialproduct.model.User;
+import com.kamsspace.financialproduct.payload.UserDTO;
 import com.kamsspace.financialproduct.payload.UserResponse;
 import com.kamsspace.financialproduct.service.UserService;
 import jakarta.validation.Valid;
@@ -24,21 +25,27 @@ public class UserController {
     }
 
     @PostMapping("/public/users")
-    public ResponseEntity<String> createUsers(@Valid @RequestBody User user) {
-        userService.createUser(user);
-        return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUsers(@Valid @RequestBody UserDTO userDTO) {
+        UserDTO savedUserDTO = userService.createUser(userDTO);
+        return new ResponseEntity<>(savedUserDTO, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/admin/users/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-         String status = userService.deleteUser(userId);
-         return new ResponseEntity<>(status, HttpStatus.OK);
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long userId) {
+         UserDTO deletedUser = userService.deleteUser(userId);
+         return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 
     @PutMapping("/public/users/{userId}")
-    public ResponseEntity<String> updateUser(@Valid @RequestBody User user, @PathVariable Long userId) {
-        User savedUser = userService.updateUser(user, userId);
-        return new ResponseEntity<>("User with userId: " + userId, HttpStatus.OK);
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable Long userId) {
+        UserDTO savedUserDTO = userService.updateUser(userDTO, userId);
+        return new ResponseEntity<>(savedUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/public/users/{userId}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
+        UserDTO userDTO = userService.getUserById(userId);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
 }

@@ -46,12 +46,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void createTransaction(Transaction transaction, Long userId) {
+    public TransactionDTO createTransaction(TransactionDTO transactionDTO, Long userId) {
 
         User savedUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
 
         double balanceAfterTransaction = savedUser.getBalance();
+        Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
 
         if ("credit".equalsIgnoreCase(transaction.getType())) {
             balanceAfterTransaction += transaction.getAmount();
@@ -67,9 +68,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         savedUser.setBalance(balanceAfterTransaction);
         userRepository.save(savedUser);
-        transaction.setUser(savedUser);
         transaction.setTime(LocalDateTime.now());
-        transactionRepository.save(transaction);
+        transaction.setUser(savedUser);
+        Transaction savedTransaction = transactionRepository.save(transaction);
+        return modelMapper.map(savedTransaction, TransactionDTO.class);
     }
 
     @Override

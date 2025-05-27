@@ -1,18 +1,18 @@
 package com.kamsspace.financialproduct.service;
 
 import com.kamsspace.financialproduct.model.User;
-
-import java.util.List;
+import com.kamsspace.financialproduct.payload.UserDTO;
+import com.kamsspace.financialproduct.payload.UserResponse;
 
 public interface UserService {
 
-    List<User> getAllUsers();
-    void createUser(User user);
+    UserResponse getAllUsers();
+    UserDTO createUser(UserDTO userDTO);
 
-    String deleteUser(Long userId);
+    UserDTO deleteUser(Long userId);
 
-    User updateUser(User user, Long userId);
+    UserDTO updateUser(UserDTO userDTO, Long userId);
 
-    User getUserById(Long userId);
+    UserDTO getUserById(Long userId);
 
 }
