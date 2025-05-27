@@ -1,6 +1,7 @@
 package com.kamsspace.financialproduct.controller;
 
 import com.kamsspace.financialproduct.model.Transaction;
+import com.kamsspace.financialproduct.payload.TransactionResponse;
 import com.kamsspace.financialproduct.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
-        List<Transaction> transactions = transactionService.getAllTransactions();
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    public ResponseEntity<TransactionResponse> getAllTransactions() {
+        TransactionResponse transactionResponse = transactionService.getAllTransactions();
+        return new ResponseEntity<>(transactionResponse, HttpStatus.OK);
     }
 
     @PostMapping("user/{userId}/transactions")
@@ -42,7 +43,8 @@ public class TransactionController {
             @RequestParam("startDate") LocalDate startDate,
             @RequestParam("endDate") LocalDate endDate
     ) {
-        List<Transaction> transactions = transactionService.getTransactionsByDateRange(userId, startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+        List<Transaction> transactions = transactionService.getTransactionsByDateRange(userId, startDate.atStartOfDay(),
+                endDate.atTime(23, 59, 59));
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
